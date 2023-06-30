@@ -1,0 +1,178 @@
+@keyframes slide_in_out {
+	0%,
+	100% {
+		top: -25px;
+		opacity: 0;
+	}
+
+	9.09%,
+	90.90% {
+		top: -16.12px;
+		opacity: 0.2;
+	}
+
+	18.18%,
+	81.81% {
+		top: -7.24px;
+		opacity: 0.4;
+	}
+
+	27.27%,
+	72.72% {
+		top: -1.64px;
+		opacity: 0.6;
+	}
+
+	36.36%,
+	63.63% {
+		top: 10.52px;
+		opacity: 0.8;
+	}
+
+	45.45%,
+	54.54% {
+		top: 20px;
+		opacity: 1;
+	}
+}
+
+body {
+	background: black;
+	margin-right: 0px;
+	margin-top: 2px;
+	overflow-x: hidden;
+	--position-background: #643a1c;
+}
+
+main {
+	display: flex;
+	align-items: center;
+}
+
+.chessboard {
+	display: grid;
+	grid-template-columns: repeat(9, 1fr);
+	grid-template-rows: repeat(9, 1fr);
+	margin-top: -4vmin;
+	width: 100vmin;
+	height: 100vmin;
+}
+
+.square {
+	height: 11.11vmin;
+	width: 11.11vmin;
+	font: 0.8rem Raleway, "Century Gothic";
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.playing-square {
+	font-size: 40px;
+}
+
+.position-top {
+	height: 6vmin;
+	background: var(--position-background) !important;
+	border-right: 1px solid yellow;
+	margin-top: 5vmin;
+	text-align: center;
+	color: yellow;
+}
+
+.position-right {
+	width: 6vmin;
+	background: var(--position-background) !important;
+	border-bottom: 1px solid yellow;
+	text-align: center;
+	color: yellow;
+}
+
+.position-top.position-right {
+	border-right: none;
+}
+
+.history {
+	background: blanchedalmond;
+	box-shadow: 0px 0px 20px black inset, 0px 0px 20px black inset;
+	border-radius: 50px;
+	margin-right: -15px;
+	margin-top: 7px;
+}
+
+.history > h1 {
+	font: 48px Raleway, "Century Gothic";
+	line-height: 0.5;
+	text-align: center;
+}
+
+#entries {
+	padding: 0px 7px 0px 7px;
+	font-family: Spirax, "Century Gothic";
+}
+
+.entry {
+	display: flex;
+	justify-content: space-between;
+}
+
+.message_container {
+	position: absolute;
+	background-color: #bb0000;
+	display: none;
+	align-items: center;
+	justify-content: center;
+	border: 3px solid white;
+	border-radius: 15px;
+	width: 300px;
+	color: white;
+	font: 20px Raleway, "Century Gothic";
+}
+
+.overlay {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100vw;
+	height: 100vh;
+	background-color: rgba(0, 0, 0, 0.7);
+	display: none;
+}
+
+.square > p[draggable="true"] {
+	cursor: pointer;
+}
+
+.square > p[draggable="false"] {
+	cursor: default;
+}
+
+.gray {
+	background: gray;
+}
+
+.white {
+	background: white;
+}
+
+.hidden {
+	display: none;
+}
+
+.slide_in_out {
+	animation: slide_in_out 1.5s ease-in-out 0s 1 forwards;
+}
+
+#attribution {
+	display: flex;
+	background-color: darkblue;
+	color: white;
+	height: 40px;
+	align-items: center;
+	padding: 10px;
+	border-radius: 20px;
+}
+
+#attribution > a {
+	color: yellow;
+}
