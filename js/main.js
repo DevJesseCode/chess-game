@@ -698,6 +698,67 @@ const change_active = () => {
 		}
 	}
 };
+function isKingInCheck() {
+	// Get the positions of the kings
+	const whiteKing = document.querySelector(".white-king").parentElement;
+	const blackKing = document.querySelector(".black-king").parentElement;
+
+	// Check if the white king is in check
+	if (isSquareUnderAttack(whiteKing, "black")) {
+		return "white";
+	}
+
+	// Check if the black king is in check
+	if (isSquareUnderAttack(blackKing, "white")) {
+		return "black";
+	}
+
+	// No king is in check
+	return false;
+}
+
+function isSquareUnderAttack(square, attackerColor) {
+	// Loop through all pieces
+	for (const piece of pieces) {
+		const pieceColor = piece.id.includes("white") ? "white" : "black";
+		if (pieceColor === attackerColor) {
+			// Check if the attacker's piece can attack the square
+			if (canPieceAttackSquare(piece, square)) {
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
+
+function canPieceAttackSquare(piece, square) {
+	// Get the target piece and the square to check
+	const targetPiece = piece.parentElement;
+	const targetSquare = square;
+
+	// Determine the piece type
+	const pieceType = piece.id.split("-")[1];
+
+	// Check if the piece can attack the square based on its type
+	switch (pieceType) {
+		case "king":
+			return verify.king(targetPiece, targetSquare);
+		case "queen":
+			return verify.queen(targetPiece, targetSquare);
+		case "rook":
+			return verify.rook(targetPiece, targetSquare);
+		case "knight":
+			return verify.knight(targetPiece, targetSquare);
+		case "bishop":
+			return verify.bishop(targetPiece, targetSquare);
+		case "pawn":
+			return verify.pawn(targetPiece, targetSquare);
+		default:
+			return false;
+	}
+}
+
 let active = "white";
 let lastDraggedTo;
 
