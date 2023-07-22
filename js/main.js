@@ -407,7 +407,7 @@ const setup_history = () => {
 	document.querySelector(".history").style.width = `${
 		document.body.clientWidth - document.querySelector(".play-area").clientWidth - 40
 	}px`;
-	document.querySelector(".history").style.height = `${document.querySelector(".play-area").clientHeight}px`;
+	document.querySelector(".history").style.height = `${document.querySelector(".play-area").clientHeight - 20}px`;
 	document.querySelector(".message_container").style.display = "flex";
 	document.querySelector(".message_container").style.left = `
 	${document.body.clientWidth / 2 - document.querySelector(".message_container").clientWidth / 2}px
