@@ -613,6 +613,7 @@ const move_piece = (event) => {
 	const move_to = lastDraggedTo.nodeName === "#text" ? lastDraggedTo.parentElement : lastDraggedTo;
 	const move_to_parent = move_to.tagName === "DIV" ? move_to : move_to.parentElement;
 	const from = target.parentElement;
+	const board_state = cloneBoardState();
 	let is_valid;
 	// console.log(target);
 	if (target.id.includes("rook")) {
@@ -665,6 +666,14 @@ const move_piece = (event) => {
 				default:
 					break;
 			}
+			checks++;
+			if (checks === 2) {
+				restoreBoardState(board_state);
+				change_active();
+				checks--;
+			}
+		} else {
+			checks = 0;
 		}
 	} else {
 		showMessage(target.parentElement.id, move_to_parent.id);
@@ -754,7 +763,6 @@ const can_piece_attack_square = (piece, square) => {
 
 	// Determine the piece type
 	const piece_type = piece.id.split("-")[1];
-	console.log(piece_type);
 
 	// Check if the piece can attack the square based on its type
 	switch (piece_type) {
@@ -774,8 +782,46 @@ const can_piece_attack_square = (piece, square) => {
 			return false;
 	}
 };
+const cloneBoardState = () => {
+	const state = [];
+	for (const square of playing_squares) {
+		if (square.children.length > 0) {
+			const piece = square.children[0].cloneNode(true);
+			state.push({ squareId: square.id, piece });
+		} else {
+			state.push({ squareId: square.id, piece: null });
+		}
+	}
+	return state;
+};
+const restoreBoardState = (state) => {
+	for (const squareData of state) {
+		const square = document.getElementById(squareData.squareId);
+		square.innerHTML = ""; // Clear the square
+		if (squareData.piece) {
+			square.appendChild(squareData.piece.cloneNode(true)); // Restore the piece
+		}
+	}
+	for (let i = 0; i < 32; i++) {
+		pieces.pop();
+	}
+	for (let element of document.querySelectorAll("p")) {
+		if (element.id.includes("black")) {
+			pieces.push(element);
+		}
+	}
+	for (let element of document.querySelectorAll("p")) {
+		if (element.id.includes("white")) {
+			pieces.push(element);
+		}
+	}
+	for (let element of pieces) {
+		element.addEventListener("dragend", (e) => move_piece(e));
+	}
+};
 
 let active = "white";
+let checks = 0;
 let lastDraggedTo;
 
 create_chessboard();
